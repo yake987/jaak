@@ -47,7 +47,7 @@ Mongoose是什么？Mongoose是MongoDB的一个对象模型工具，是基于nod
 <meta property="og:site_name" content="YakeZhang's Blog">
 <meta property="og:description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
 Mongoose是什么？Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针">
-<meta property="og:updated_time" content="2015-11-16T05:16:05.926Z">
+<meta property="og:updated_time" content="2015-11-16T05:19:20.010Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mongoose简单总结">
 <meta name="twitter:description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
@@ -363,7 +363,32 @@ Model.find({<span class="string">"age"</span>:{<span class="string">"$lt"</span>
 Model.find({<span class="string">"age"</span>:{<span class="string">"$gt"</span>:<span class="number">18</span>,<span class="string">"$lt"</span>:<span class="number">60</span>}},<span class="function"><span class="keyword">function</span><span class="params">(error,docs)</span></span>{
    <span class="comment">//查询所有nage大于18小于60的数据</span>
 });
-</code></pre><p><strong>$ne(!=)操作符的含义相当于不等于、不包含，查询时我们可通过它进行条件判定，具体使用方法如下</strong><br>    Model.find({ age:{ $ne:24}},function(error,docs){<br>        //查询age不等于24的所有数据<br>    });<br>    Model.find({name:{$ne:”tom”},age:{$gte:18}},function(error,docs){<br>      //查询name不等于tom、age&gt;=18的所有数据<br>    });<br><strong>和$ne操作符相反，$in相当于包含、等于，查询时查找包含于指定字段条件的数据。具体使用方法如下</strong><br>    Model.find({ age:{ $in: 20}},function(error,docs){<br>       //查询age等于20的所有数据<br>    });<br>    Model.find({ age:{$in:[20,30]}},function(error,docs){<br>      //可以把多个值组织成一个数组<br>    });<br><strong>$or操作符，可以查询多个键值的任意给定值，只要满足其中一个就可返回，用于存在多个条件判定的情况下使用，如下示例</strong><br> Model.find({“$or”:[{“name”:”yaya”},{“age”:28}]},function(error,docs){<br>      //查询name为yaya或age为28的全部文档<br>    });<br><strong>$exists操作符，可用于判断某些关键字段是否存在来进行条件查询。如下示例</strong><br>    Model.find({name: {$exists: true}},function(error,docs){<br>      //查询所有存在name属性的文档<br>    });<br>    Model.find({telephone: {$exists: false}},function(error,docs){<br>      //查询所有不存在telephone属性的文档<br>    });<br><strong>limit的基本用法</strong><br>限制返回数量语法：Model.find(Conditions,fields,<strong>options</strong>,callback);<br>示例：</p>
+</code></pre><p><strong>$ne(!=)操作符的含义相当于不等于、不包含，查询时我们可通过它进行条件判定，具体使用方法如下</strong></p>
+<pre><code>Model.find({ age:{ <span class="variable">$ne</span>:<span class="number">24</span>}},<span class="keyword">function</span>(error,docs){
+    //查询age不等于<span class="number">24</span>的所有数据
+});
+Model.find({name:{<span class="variable">$ne</span>:<span class="string">"tom"</span>},age:{<span class="variable">$gte</span>:<span class="number">18</span>}},<span class="keyword">function</span>(error,docs){
+  //查询name不等于tom、age&gt;=<span class="number">18</span>的所有数据
+});
+</code></pre><p><strong>和$ne操作符相反，$in相当于包含、等于，查询时查找包含于指定字段条件的数据。具体使用方法如下</strong></p>
+<pre><code>Model.find({ age:{ <span class="variable">$in</span>: <span class="number">20</span>}},<span class="keyword">function</span>(error,docs){
+   //查询age等于<span class="number">20</span>的所有数据
+}); 
+Model.find({ age:{<span class="variable">$in</span>:[<span class="number">20</span>,<span class="number">30</span>]}},<span class="keyword">function</span>(error,docs){
+  //可以把多个值组织成一个数组
+}); 
+</code></pre><p><strong>$or操作符，可以查询多个键值的任意给定值，只要满足其中一个就可返回，用于存在多个条件判定的情况下使用，如下示例</strong></p>
+<pre><code>Model.find({<span class="string">"$or"</span>:[{<span class="string">"name"</span>:<span class="string">"yaya"</span>},{<span class="string">"age"</span>:<span class="number">28</span>}]},<span class="keyword">function</span>(error,docs){
+  //查询name为yaya或age为<span class="number">28</span>的全部文档
+});
+</code></pre><p><strong>$exists操作符，可用于判断某些关键字段是否存在来进行条件查询。如下示例</strong></p>
+<pre><code>Model.find({name: {<span class="variable">$exists</span>: true}},<span class="keyword">function</span>(error,docs){
+  //查询所有存在name属性的文档
+});
+Model.find({telephone: {<span class="variable">$exists</span>: false}},<span class="keyword">function</span>(error,docs){
+  //查询所有不存在telephone属性的文档
+});
+</code></pre><p><strong>limit的基本用法</strong><br>限制返回数量语法：Model.find(Conditions,fields,<strong>options</strong>,callback);<br>示例：</p>
 <pre><code><span class="tag">Model</span><span class="class">.find</span>(<span class="rules">{}</span>,<span class="tag">null</span>,**<span class="rules">{<span class="rule"><span class="attribute">limit</span>:<span class="value"><span class="number">20</span>}**,<span class="function">function</span>(err,docs){
     console.<span class="function">log</span>(docs)</span></span>;
 }</span>);
@@ -376,8 +401,12 @@ Model.find({<span class="string">"age"</span>:{<span class="string">"$gt"</span>
 <pre><code><span class="tag">Model</span><span class="class">.find</span>(<span class="rules">{}</span>,<span class="tag">null</span>,**<span class="rules">{<span class="rule"><span class="attribute">skip</span>:<span class="value"><span class="number">4</span>}**,<span class="function">function</span>(err,docs){
     console.<span class="function">log</span>(docs)</span></span>;
 }</span>);
-</code></pre><p>如果查询结果数量中少于4个的话，则不会返回任何结果。<br><strong>skip limit sort 联合查询 示例</strong><br>    Model.find({},null,{skip:0,limit:2,sort:{age:1}},function(err,docs){<br>     // …<br>    });</p>
-<h3 id="链式查询">链式查询</h3><p>这种方式相对直接查询，分的比较明细，如果不带 callback，则返回 query，<br>query 表示没有执行的预编译查询语句，该 query 对象执行的方法都将返回自己，<br>只有在执行 exec 方法时才执行查询，而且必须有回调。</p>
+</code></pre><p>如果查询结果数量中少于4个的话，则不会返回任何结果。</p>
+<p><strong>skip limit sort 联合查询 示例</strong></p>
+<pre><code><span class="tag">Model</span><span class="class">.find</span>({},null,{<span class="tag">skip</span><span class="pseudo">:0</span>,<span class="tag">limit</span><span class="pseudo">:2</span>,<span class="tag">sort</span>:{<span class="tag">age</span><span class="pseudo">:1</span>}},<span class="tag">function</span>(err,docs){
+ <span class="comment">// ...</span>
+});
+</code></pre><h3 id="链式查询">链式查询</h3><p>这种方式相对直接查询，分的比较明细，如果不带 callback，则返回 query，<br>query 表示没有执行的预编译查询语句，该 query 对象执行的方法都将返回自己，<br>只有在执行 exec 方法时才执行查询，而且必须有回调。</p>
 <pre><code><span class="keyword">var</span> query = Model
 .find({ age: <span class="number">24</span>})
 .limit(<span class="number">10</span>)
