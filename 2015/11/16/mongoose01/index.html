@@ -1,0 +1,861 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="VvyjvVXcJQa0QklHipu6pwm2PJGnnchIqX7s5JbbT_0" />
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/jaak/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/jaak/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="mongoose," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/jaak/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
+Mongoose是什么？Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongoose简单总结">
+<meta property="og:url" content="http://yake987.github.io/jaak/2015/11/16/mongoose01/index.html">
+<meta property="og:site_name" content="YakeZhang's Blog">
+<meta property="og:description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
+Mongoose是什么？Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针">
+<meta property="og:updated_time" content="2015-11-16T04:59:12.524Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mongoose简单总结">
+<meta name="twitter:description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
+Mongoose是什么？Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> mongoose简单总结 | YakeZhang's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?50c15455e37f70aea674ff4a663eef27";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/jaak/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">YakeZhang's Blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/jaak" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/jaak/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/jaak/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/jaak/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/jaak/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              mongoose简单总结
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-11-16T10:25:40+08:00" content="2015-11-16">
+            2015-11-16
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/jaak/2015/11/16/mongoose01/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/16/mongoose01/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用</p>
+<h3 id="Mongoose是什么？">Mongoose是什么？</h3><p>Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对MongoDB操作的一个对象模型库，封装了MongoDB对文档的的一些增删改查等常用方法，让NodeJS操作Mongodb数据库变得更加灵活简单。<br><a id="more"></a></p>
+<h3 id="Mongoose能做什么？">Mongoose能做什么？</h3><p>Mongoose，因为封装了对MongoDB对文档操作的常用处理方法，让NodeJS操作Mongodb数据库变得easy、easy、So easy!</p>
+<h3 id="Mongoose使用">Mongoose使用</h3><h5 id="安装mongoose：">安装mongoose：</h5><pre><code>npm <span class="keyword">install</span> mongoose
+</code></pre><h5 id="引用mongoose">引用mongoose</h5><pre><code><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">"mongoose"</span>);
+</code></pre><h5 id="使用”mongoose”连接数据库：">使用”mongoose”连接数据库：</h5><pre><code><span class="variable"><span class="keyword">var</span> db</span> = mongoose.connect(<span class="string">"mongodb://user:pass@localhost:port/database"</span>); 
+</code></pre><p>执行下面代码检查默认数据库test，是否可以正常连接成功</p>
+<pre><code><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">"mongoose"</span>);
+<span class="keyword">var</span> db = mongoose.connect(<span class="string">"mongodb://127.0.0.1:27017/test"</span>);
+db.connection.on(<span class="string">"error"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>{
+  <span class="built_in">console</span>.log(<span class="string">"数据库连接失败："</span> + error);
+  });
+  db.connection.on(<span class="string">"open"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+    <span class="built_in">console</span>.log(<span class="string">"------数据库连接成功！------"</span>);
+   }); 
+</code></pre><h3 id="名词解释_Schema,Model,Entity">名词解释 Schema,Model,Entity</h3><p><strong>Schema</strong> —— 一种以文件形式存储的数据库模型骨架，无法直接通往数据库端，也就是说它不具备对数据库的操作能力，仅仅只是数据库模型在程序片段中的一种表现，可以说是数据属性模型(传统意义的表结构)，又或着是“集合”的模型骨架。<br>那如何去定义一个Schema，请看示例：</p>
+<pre><code><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">"mongoose"</span>);
+<span class="keyword">var</span> TestSchema = <span class="keyword">new</span> mongoose.Schema({
+          name : { <span class="keyword">type</span>:<span class="built_in">String</span> },<span class="comment">//属性name,类型为String</span>
+          age  : { <span class="keyword">type</span>:<span class="built_in">Number</span>, <span class="keyword">default</span>:<span class="number">0</span> },<span class="comment">//属性age,类型为Number,默认为0</span>
+          time : { <span class="keyword">type</span>:<span class="built_in">Date</span>, <span class="keyword">default</span>:<span class="built_in">Date</span>.now },
+          email: { <span class="keyword">type</span>:<span class="built_in">String</span>,<span class="keyword">default</span>:<span class="string">''</span>}
+    });
+</code></pre><p><strong>Model</strong> —— 由Schema构造生成的模型，除了Schema定义的数据库骨架以外，还具有数据库操作的行为，类似于管理数据库属性、行为的类。<br>通过Schema来创建Model，如下示例：</p>
+<pre><code><span class="variable"><span class="keyword">var</span> db</span> = mongoose.connect(<span class="string">"mongodb://127.0.0.1:27017/test"</span>);
+    <span class="comment">//……</span>
+   <span class="comment">// 创建Model</span>
+<span class="variable"><span class="keyword">var</span> TestModel</span> = db.model(<span class="string">"test1"</span>, TestSchema);
+</code></pre><p>拥有了Model，在后面就可以使用Model来进行增删改查的具体操作。</p>
+<pre><code><span class="keyword">var</span> TestSchema = <span class="keyword">new</span> mongoose.Schema({
+       name : { <span class="keyword">type</span>:<span class="built_in">String</span> },<span class="comment">//属性name,类型为String</span>
+       age  : { <span class="keyword">type</span>:<span class="built_in">Number</span>, <span class="keyword">default</span>:<span class="number">0</span> },<span class="comment">//属性age,类型为Number,默认为0</span>
+       time : { <span class="keyword">type</span>:<span class="built_in">Date</span>, <span class="keyword">default</span>:<span class="built_in">Date</span>.now },
+        email: { <span class="keyword">type</span>:<span class="built_in">String</span>,<span class="keyword">default</span>:<span class="string">''</span>}
+  });
+<span class="keyword">var</span> TestModel = db.model(<span class="string">"test1"</span>, TestSchema);
+</code></pre><p><strong>Entity</strong> —— 由Model创建的实体，使用save方法保存数据，Model和  Entity都有能影响数据库的操作，但Model比Entity更具操作性。<br>使用Model创建Entity，如下示例：</p>
+<pre><code>var TestEntity = <span class="keyword">new</span> TestModel({
+       name : <span class="string">"jaak"</span>,
+       age  : <span class="number">25</span>,
+       email: <span class="string">"jaak@qq.com"</span>
+});
+console.<span class="built_in">log</span>(TestEntity.name); <span class="comment">// jaak</span>
+console.<span class="built_in">log</span>(TestEntity.age); <span class="comment">// 25</span>
+</code></pre><h4 id="Schema_Model_Entity_完整示例">Schema Model Entity 完整示例</h4><pre><code><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">"mongoose"</span>);
+<span class="keyword">var</span> db = mongoose.connect(<span class="string">"mongodb://127.0.0.1:27017/test"</span>);
+<span class="keyword">var</span> TestSchema = <span class="keyword">new</span> mongoose.Schema({
+    name : { <span class="keyword">type</span>:<span class="built_in">String</span> },
+    age  : { <span class="keyword">type</span>:<span class="built_in">Number</span>, <span class="keyword">default</span>:<span class="number">0</span> },
+    email: { <span class="keyword">type</span>:<span class="built_in">String</span> },
+    time : { <span class="keyword">type</span>:<span class="built_in">Date</span>, <span class="keyword">default</span>:<span class="built_in">Date</span>.now }
+});
+<span class="keyword">var</span> TestModel = db.model(<span class="string">"test1"</span>, TestSchema );
+<span class="keyword">var</span> TestEntity = <span class="keyword">new</span> TestModel({
+    name : <span class="string">"helloworld"</span>,
+    age  : <span class="number">28</span>,
+    email: <span class="string">"helloworld@qq.com"</span>
+});
+TestEntity.save(<span class="function"><span class="keyword">function</span>(<span class="params">error,doc</span>)</span>{
+  <span class="keyword">if</span>(error){
+     <span class="built_in">console</span>.log(<span class="string">"error :"</span> + error);
+  }<span class="keyword">else</span>{
+     <span class="built_in">console</span>.log(doc);
+  }
+});
+</code></pre><ul>
+<li>Schema：数据库集合的模型骨架，或者是数据属性模型传统意义的表结构。</li>
+<li>Model ：通过Schema构造而成，除了具有Schema定义的数据库骨架以外，还可以具体的操作数据库。</li>
+<li>Entity：通过Model创建的实体，它也可以操作数据库。<br>Schema、Model、Entity的关系请牢记，Schema生成Model，Model创造Entity，Model和Entity都可对数据库操作造成影响，但Model比Entity更具操作性</li>
+</ul>
+<h3 id="Model_基本的find查询">Model 基本的find查询</h3><p>使用Model进行基本的find查询： Model.find(查询条件,callback);</p>
+<pre><code>Model.find({},<span class="function"><span class="keyword">function</span>(<span class="params">error,docs</span>)</span>{
+    <span class="comment">//若没有向find传递参数，默认的是显示所有文档</span>
+ });
+Model.find({ <span class="string">"age"</span>: <span class="number">28</span> }, <span class="function"><span class="keyword">function</span> (<span class="params">error, docs</span>) </span>{
+   <span class="keyword">if</span>(error){
+     <span class="built_in">console</span>.log(<span class="string">"error :"</span> + error);
+   }<span class="keyword">else</span>{
+     <span class="built_in">console</span>.log(docs); <span class="comment">//docs: age为28的所有文档</span>
+   }
+ }); 
+</code></pre><h3 id="Model_保存方法">Model 保存方法</h3><p> 语法：Model.create(文档数据, callback))<br> 示例 :</p>
+<pre><code>Model.create({ name:<span class="string">"model_create"</span>, age:<span class="number">26</span>}, <span class="function"><span class="keyword">function</span>(</span><span class="built_in">error</span>,doc){
+       <span class="keyword">if</span>(<span class="built_in">error</span>) {
+           console.<span class="built_in">log</span>(<span class="built_in">error</span>);
+       } <span class="keyword">else</span> {
+           console.<span class="built_in">log</span>(doc);
+       }
+   });
+</code></pre><h3 id="Entity_保存方法">Entity 保存方法</h3><p>语法 : Entity.save(文档数据, callback))<br>示例:</p>
+<pre><code>var Entity = <span class="keyword">new</span> Model({name:<span class="string">"entity_save"</span>,age: <span class="number">27</span>});  
+Entity.save(<span class="function"><span class="keyword">function</span>(</span><span class="built_in">error</span>,doc) {
+    <span class="keyword">if</span>(<span class="built_in">error</span>) {
+        console.<span class="built_in">log</span>(<span class="built_in">error</span>);
+    } <span class="keyword">else</span> {
+        console.<span class="built_in">log</span>(doc);
+    }
+});
+</code></pre><h3 id="Model_数据更新">Model 数据更新</h3><p>  语法 : Model.update(查询条件,更新对象,callback);<br>  示例:</p>
+<pre><code>var conditions = {name : <span class="string">'test_update'</span>};
+var <span class="keyword">update</span> = {<span class="variable">$set</span> : { age : <span class="number">16</span> }};
+Model.<span class="keyword">update</span>(conditions, <span class="keyword">update</span>, <span class="keyword">function</span>(error){
+    if(error) {
+        console.log(error);
+    } else {
+        console.log(<span class="string">'Update success!'</span>);
+    }
+});
+</code></pre><h3 id="Model_删除数据">Model 删除数据</h3><p>语法 : Model.remove(查询条件,callback);<br>示例:</p>
+<pre><code><span class="keyword">var</span> conditions = { name: <span class="string">'tom'</span> };
+Model.remove(conditions, <span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>{
+    <span class="keyword">if</span>(error) {
+        <span class="built_in">console</span>.log(error);
+    } <span class="keyword">else</span> {
+        <span class="built_in">console</span>.log(<span class="string">'Delete success!'</span>);
+    }
+});
+</code></pre><h3 id="Model_find过滤查询">Model  find过滤查询</h3><p>语法 :  属性过滤 Model.find(Conditions,<em>field</em>,callback);<br><em>field</em> 说明：我们只需要把显示的属性设置为大于零的数就可以，当然1是最好理解的_id是默认返回 如果不要显示加上(“_id”:0)<br>但是 对其他不需要显示的属性且不是_id 如果设置为0的话将会抛异常或查询无果。<br>示例：<br>//返回只包含一个键值name、age的所有记录</p>
+<pre><code><span class="tag">Model</span><span class="class">.find</span>({},{<span class="tag">name</span><span class="pseudo">:1</span>, <span class="tag">age</span><span class="pseudo">:1</span>, <span class="tag">_id</span><span class="pseudo">:0</span>}，<span class="tag">function</span>(err,docs){
+   <span class="comment">//docs 查询结果集</span>
+})
+</code></pre><h3 id="Model_findOne的基本用法">Model findOne的基本用法</h3><p>与find相同，但只返回单个文档，也就说当查询到即一个符合条件的数据时，将停止继续查询，并返回查询结果。<br>单条数据查询语法: Model.findOne(Conditions,callback);</p>
+<pre><code><span class="tag">Model</span><span class="class">.findOne</span>({ <span class="tag">age</span>: <span class="tag">27</span>}, <span class="tag">function</span> (err, doc){
+    <span class="comment">// 查询符合age等于27的第一条数据</span>
+    <span class="comment">// doc是查询结果</span>
+ });
+</code></pre><p>findOne方法，只返回第一个符合条件的文档数据。</p>
+<h3 id="Model_findById的基本用法">Model findById的基本用法</h3><p>与findOne相同，但它只接收文档的_id作为参数，返回单个文档。<br>单条数据查询语法: Model.findById(_id, callback);</p>
+<pre><code>TestModel.findById(<span class="string">'_id'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err, doc)</span></span>{
+ <span class="comment">//doc 查询结果文档</span>
+});
+</code></pre><h3 id="Model_条件查询">Model 条件查询</h3><p>“$lt”(小于)，”$lte”(小于等于),”$gt”(大于)，”$gte”(大于等于)，”$ne”(不等于)，”$in”(可单值和多个值的匹配)，”$or”(查询多个键值的任意给定值)，”$exists”(表示是否存在的意思)”$all”</p>
+<h6 id="使用$gt(&gt;)、$lt(&lt;)、$lte(&lt;=)、$gte(&gt;=)操作符进行排除性的查询，如下示例：">使用$gt(&gt;)、$lt(&lt;)、$lte(&lt;=)、$gte(&gt;=)操作符进行排除性的查询，如下示例：</h6><pre><code>Model.find({<span class="string">"age"</span>:{<span class="string">"$gt"</span>:<span class="number">18</span>}},<span class="function"><span class="keyword">function</span><span class="params">(error,docs)</span></span>{
+   <span class="comment">//查询所有nage大于18的数据</span>
+});
+Model.find({<span class="string">"age"</span>:{<span class="string">"$lt"</span>:<span class="number">60</span>}},<span class="function"><span class="keyword">function</span><span class="params">(error,docs)</span></span>{
+   <span class="comment">//查询所有nage小于60的数据</span>
+});
+Model.find({<span class="string">"age"</span>:{<span class="string">"$gt"</span>:<span class="number">18</span>,<span class="string">"$lt"</span>:<span class="number">60</span>}},<span class="function"><span class="keyword">function</span><span class="params">(error,docs)</span></span>{
+   <span class="comment">//查询所有nage大于18小于60的数据</span>
+});
+</code></pre><h6 id="$ne(!=)操作符的含义相当于不等于、不包含，查询时我们可通过它进行条件判定，具体使用方法如下：">$ne(!=)操作符的含义相当于不等于、不包含，查询时我们可通过它进行条件判定，具体使用方法如下：</h6><pre><code>Model.find({ age:{ <span class="variable">$ne</span>:<span class="number">24</span>}},<span class="keyword">function</span>(error,docs){
+    //查询age不等于<span class="number">24</span>的所有数据
+});
+Model.find({name:{<span class="variable">$ne</span>:<span class="string">"tom"</span>},age:{<span class="variable">$gte</span>:<span class="number">18</span>}},<span class="keyword">function</span>(error,docs){
+  //查询name不等于tom、age&gt;=<span class="number">18</span>的所有数据
+});
+</code></pre><h6 id="和$ne操作符相反，$in相当于包含、等于，查询时查找包含于指定字段条件的数据。具体使用方法如下：">和$ne操作符相反，$in相当于包含、等于，查询时查找包含于指定字段条件的数据。具体使用方法如下：</h6><pre><code>Model.find({ age:{ <span class="variable">$in</span>: <span class="number">20</span>}},<span class="keyword">function</span>(error,docs){
+   //查询age等于<span class="number">20</span>的所有数据
+}); 
+Model.find({ age:{<span class="variable">$in</span>:[<span class="number">20</span>,<span class="number">30</span>]}},<span class="keyword">function</span>(error,docs){
+  //可以把多个值组织成一个数组
+}); 
+</code></pre><h6 id="$or操作符，可以查询多个键值的任意给定值，只要满足其中一个就可返回，用于存在多个条件判定的情况下使用，如下示例：">$or操作符，可以查询多个键值的任意给定值，只要满足其中一个就可返回，用于存在多个条件判定的情况下使用，如下示例：</h6><p> Model.find({“$or”:[{“name”:”yaya”},{“age”:28}]},function(error,docs){<br>      //查询name为yaya或age为28的全部文档<br>    });</p>
+<h6 id="$exists操作符，可用于判断某些关键字段是否存在来进行条件查询。如下示例：">$exists操作符，可用于判断某些关键字段是否存在来进行条件查询。如下示例：</h6><pre><code>Model.find({name: {<span class="variable">$exists</span>: true}},<span class="keyword">function</span>(error,docs){
+  //查询所有存在name属性的文档
+});
+Model.find({telephone: {<span class="variable">$exists</span>: false}},<span class="keyword">function</span>(error,docs){
+  //查询所有不存在telephone属性的文档
+});
+</code></pre><h6 id="limit的基本用法">limit的基本用法</h6><p>限制返回数量语法：Model.find(Conditions,fields,<strong>options</strong>,callback);<br>示例：</p>
+<pre><code><span class="tag">Model</span><span class="class">.find</span>(<span class="rules">{}</span>,<span class="tag">null</span>,**<span class="rules">{<span class="rule"><span class="attribute">limit</span>:<span class="value"><span class="number">20</span>}**,<span class="function">function</span>(err,docs){
+    console.<span class="function">log</span>(docs)</span></span>;
+}</span>);
+</code></pre><h6 id="sort的基本用法">sort的基本用法</h6><p>对结果排序语法：Model.find(Conditions,fields,options,callback);<br>示例：</p>
+<pre><code><span class="tag">Model</span><span class="class">.find</span>({},null,{<span class="tag">sort</span>:{<span class="tag">age</span><span class="pseudo">:-1</span>}},<span class="tag">function</span>(err,docs){
+  <span class="comment">//查询所有数据，并按照age降序顺序返回数据docs</span>
+});
+</code></pre><p>sort函数可以将查询结果数据进行排序操作，该函数的参数是一个或多个键/值对，<br>键代表要排序的键名，值代表排序的方向，1是升序，-1是降序</p>
+<h6 id="skip的基本用法">skip的基本用法</h6><p>跳过数量：find(Conditions,fields,<strong>options</strong>,callback);</p>
+<pre><code><span class="tag">Model</span><span class="class">.find</span>(<span class="rules">{}</span>,<span class="tag">null</span>,**<span class="rules">{<span class="rule"><span class="attribute">skip</span>:<span class="value"><span class="number">4</span>}**,<span class="function">function</span>(err,docs){
+    console.<span class="function">log</span>(docs)</span></span>;
+}</span>);
+</code></pre><p>如果查询结果数量中少于4个的话，则不会返回任何结果。</p>
+<h6 id="skip_limit_sort_联合查询_示例">skip limit sort 联合查询 示例</h6><pre><code><span class="tag">Model</span><span class="class">.find</span>({},null,{<span class="tag">skip</span><span class="pseudo">:0</span>,<span class="tag">limit</span><span class="pseudo">:2</span>,<span class="tag">sort</span>:{<span class="tag">age</span><span class="pseudo">:1</span>}},<span class="tag">function</span>(err,docs){
+ <span class="comment">// ...</span>
+});
+</code></pre><h3 id="链式查询">链式查询</h3><p>这种方式相对直接查询，分的比较明细，如果不带 callback，则返回 query，<br>query 表示没有执行的预编译查询语句，该 query 对象执行的方法都将返回自己，<br>只有在执行 exec 方法时才执行查询，而且必须有回调。</p>
+<pre><code><span class="keyword">var</span> query = Model
+.find({ age: <span class="number">24</span>})
+.limit(<span class="number">10</span>)
+.skip(<span class="number">5</span>);
+query.exec(<span class="function"><span class="keyword">function</span><span class="params">(err,pserson)</span></span>{
+<span class="comment">//如果 err==null，则 person 就能取到数据</span>
+});
+</code></pre></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/jaak/tags/mongoose/" rel="tag">#mongoose</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/jaak/2015/10/13/article01/" rel="next">Hexo入住</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/11/16/mongoose01/"
+     data-title="mongoose简单总结"
+     data-content=""
+     data-url="http://yake987.github.io/jaak/2015/11/16/mongoose01/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/11/16/mongoose01/"
+                   data-title="mongoose简单总结" data-url="http://yake987.github.io/jaak/2015/11/16/mongoose01/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars0.githubusercontent.com/u/10769615?v=3&s=460" alt="Yake Zhang" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yake Zhang</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/jaak/archives">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/jaak/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/jaak/tags">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yake987" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jaakzh" target="_blank">Weibo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://douban.com/people/" target="_blank">DouBan</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/" target="_blank">ZhiHu</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/jaak/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongoose是什么？"><span class="nav-number">1.</span> <span class="nav-text">Mongoose是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongoose能做什么？"><span class="nav-number">2.</span> <span class="nav-text">Mongoose能做什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongoose使用"><span class="nav-number">3.</span> <span class="nav-text">Mongoose使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装mongoose："><span class="nav-number">3.0.1.</span> <span class="nav-text">安装mongoose：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#引用mongoose"><span class="nav-number">3.0.2.</span> <span class="nav-text">引用mongoose</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用”mongoose”连接数据库："><span class="nav-number">3.0.3.</span> <span class="nav-text">使用”mongoose”连接数据库：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#名词解释_Schema,Model,Entity"><span class="nav-number">4.</span> <span class="nav-text">名词解释 Schema,Model,Entity</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Schema_Model_Entity_完整示例"><span class="nav-number">4.1.</span> <span class="nav-text">Schema Model Entity 完整示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_基本的find查询"><span class="nav-number">5.</span> <span class="nav-text">Model 基本的find查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_保存方法"><span class="nav-number">6.</span> <span class="nav-text">Model 保存方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Entity_保存方法"><span class="nav-number">7.</span> <span class="nav-text">Entity 保存方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_数据更新"><span class="nav-number">8.</span> <span class="nav-text">Model 数据更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_删除数据"><span class="nav-number">9.</span> <span class="nav-text">Model 删除数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_find过滤查询"><span class="nav-number">10.</span> <span class="nav-text">Model  find过滤查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_findOne的基本用法"><span class="nav-number">11.</span> <span class="nav-text">Model findOne的基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_findById的基本用法"><span class="nav-number">12.</span> <span class="nav-text">Model findById的基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_条件查询"><span class="nav-number">13.</span> <span class="nav-text">Model 条件查询</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#使用$gt(>)、$lt(<)、$lte(<=)、$gte(>=)操作符进行排除性的查询，如下示例："><span class="nav-number">13.0.0.1.</span> <span class="nav-text">使用$gt(>)、$lt(<)、$lte(<=)、$gte(>=)操作符进行排除性的查询，如下示例：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#$ne(!=)操作符的含义相当于不等于、不包含，查询时我们可通过它进行条件判定，具体使用方法如下："><span class="nav-number">13.0.0.2.</span> <span class="nav-text">$ne(!=)操作符的含义相当于不等于、不包含，查询时我们可通过它进行条件判定，具体使用方法如下：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#和$ne操作符相反，$in相当于包含、等于，查询时查找包含于指定字段条件的数据。具体使用方法如下："><span class="nav-number">13.0.0.3.</span> <span class="nav-text">和$ne操作符相反，$in相当于包含、等于，查询时查找包含于指定字段条件的数据。具体使用方法如下：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#$or操作符，可以查询多个键值的任意给定值，只要满足其中一个就可返回，用于存在多个条件判定的情况下使用，如下示例："><span class="nav-number">13.0.0.4.</span> <span class="nav-text">$or操作符，可以查询多个键值的任意给定值，只要满足其中一个就可返回，用于存在多个条件判定的情况下使用，如下示例：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#$exists操作符，可用于判断某些关键字段是否存在来进行条件查询。如下示例："><span class="nav-number">13.0.0.5.</span> <span class="nav-text">$exists操作符，可用于判断某些关键字段是否存在来进行条件查询。如下示例：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#limit的基本用法"><span class="nav-number">13.0.0.6.</span> <span class="nav-text">limit的基本用法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#sort的基本用法"><span class="nav-number">13.0.0.7.</span> <span class="nav-text">sort的基本用法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#skip的基本用法"><span class="nav-number">13.0.0.8.</span> <span class="nav-text">skip的基本用法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#skip_limit_sort_联合查询_示例"><span class="nav-number">13.0.0.9.</span> <span class="nav-text">skip limit sort 联合查询 示例</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链式查询"><span class="nav-number">14.</span> <span class="nav-text">链式查询</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2011 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yake Zhang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/jaak/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yakezhang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+    
+  
+  
+  <script type="text/javascript" src="/jaak/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/jaak/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/jaak/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/jaak/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/jaak/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/jaak/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/jaak/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/jaak/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/jaak/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/jaak/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/jaak/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
