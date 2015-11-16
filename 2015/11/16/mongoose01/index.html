@@ -40,18 +40,18 @@
 
 
 <meta name="description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
-Mongoose是什么？Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针">
+Mongoose是什么Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mongoose简单总结">
 <meta property="og:url" content="http://yake987.github.io/jaak/2015/11/16/mongoose01/index.html">
 <meta property="og:site_name" content="YakeZhang's Blog">
 <meta property="og:description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
-Mongoose是什么？Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针">
-<meta property="og:updated_time" content="2015-11-16T05:19:20.010Z">
+Mongoose是什么Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对">
+<meta property="og:updated_time" content="2015-11-16T05:43:14.859Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mongoose简单总结">
 <meta name="twitter:description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
-Mongoose是什么？Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针">
+Mongoose是什么Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -222,11 +222,11 @@ Mongoose是什么？Mongoose是MongoDB的一个对象模型工具，是基于nod
 
       
         <span itemprop="articleBody"><p>工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用</p>
-<h3 id="Mongoose是什么？">Mongoose是什么？</h3><p>Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对MongoDB操作的一个对象模型库，封装了MongoDB对文档的的一些增删改查等常用方法，让NodeJS操作Mongodb数据库变得更加灵活简单。<br><a id="more"></a></p>
-<h3 id="Mongoose能做什么？">Mongoose能做什么？</h3><p>Mongoose，因为封装了对MongoDB对文档操作的常用处理方法，让NodeJS操作Mongodb数据库变得easy、easy、So easy!</p>
-<h3 id="Mongoose使用">Mongoose使用</h3><h5 id="安装mongoose：">安装mongoose：</h5><pre><code>npm <span class="keyword">install</span> mongoose
+<h3 id="Mongoose是什么">Mongoose是什么</h3><p>Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对MongoDB操作的一个对象模型库，封装了MongoDB对文档的的一些增删改查等常用方法，让NodeJS操作Mongodb数据库变得更加灵活简单。<br><a id="more"></a></p>
+<h4 id="Mongoose能做什么">Mongoose能做什么</h4><p>Mongoose，因为封装了对MongoDB对文档操作的常用处理方法，让NodeJS操作Mongodb数据库变得easy、easy、So easy!</p>
+<h4 id="Mongoose使用">Mongoose使用</h4><h5 id="安装mongoose">安装mongoose</h5><pre><code>npm <span class="keyword">install</span> mongoose
 </code></pre><h5 id="引用mongoose">引用mongoose</h5><pre><code><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">"mongoose"</span>);
-</code></pre><h5 id="使用”mongoose”连接数据库：">使用”mongoose”连接数据库：</h5><pre><code><span class="variable"><span class="keyword">var</span> db</span> = mongoose.connect(<span class="string">"mongodb://user:pass@localhost:port/database"</span>); 
+</code></pre><h5 id="使用”mongoose”连接数据库">使用”mongoose”连接数据库</h5><pre><code><span class="variable"><span class="keyword">var</span> db</span> = mongoose.connect(<span class="string">"mongodb://user:pass@localhost:port/database"</span>); 
 </code></pre><p>执行下面代码检查默认数据库test，是否可以正常连接成功</p>
 <pre><code><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">"mongoose"</span>);
 <span class="keyword">var</span> db = mongoose.connect(<span class="string">"mongodb://127.0.0.1:27017/test"</span>);
@@ -236,7 +236,7 @@ db.connection.on(<span class="string">"error"</span>, <span class="function"><sp
   db.connection.on(<span class="string">"open"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
     <span class="built_in">console</span>.log(<span class="string">"------数据库连接成功！------"</span>);
    }); 
-</code></pre><h3 id="名词解释_Schema,Model,Entity">名词解释 Schema,Model,Entity</h3><p><strong>Schema</strong> —— 一种以文件形式存储的数据库模型骨架，无法直接通往数据库端，也就是说它不具备对数据库的操作能力，仅仅只是数据库模型在程序片段中的一种表现，可以说是数据属性模型(传统意义的表结构)，又或着是“集合”的模型骨架。<br>那如何去定义一个Schema，请看示例：</p>
+</code></pre><h4 id="名词解释_Schema,Model,Entity">名词解释 Schema,Model,Entity</h4><p><strong>Schema</strong> —— 一种以文件形式存储的数据库模型骨架，无法直接通往数据库端，也就是说它不具备对数据库的操作能力，仅仅只是数据库模型在程序片段中的一种表现，可以说是数据属性模型(传统意义的表结构)，又或着是“集合”的模型骨架。<br>那如何去定义一个Schema，请看示例：</p>
 <pre><code><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">"mongoose"</span>);
 <span class="keyword">var</span> TestSchema = <span class="keyword">new</span> mongoose.Schema({
           name : { <span class="keyword">type</span>:<span class="built_in">String</span> },<span class="comment">//属性name,类型为String</span>
@@ -265,7 +265,7 @@ db.connection.on(<span class="string">"error"</span>, <span class="function"><sp
 });
 console.<span class="built_in">log</span>(TestEntity.name); <span class="comment">// jaak</span>
 console.<span class="built_in">log</span>(TestEntity.age); <span class="comment">// 25</span>
-</code></pre><h3 id="Schema_Model_Entity_完整示例">Schema Model Entity 完整示例</h3><pre><code><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">"mongoose"</span>);
+</code></pre><h4 id="Schema_Model_Entity_完整示例">Schema Model Entity 完整示例</h4><pre><code><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">"mongoose"</span>);
 <span class="keyword">var</span> db = mongoose.connect(<span class="string">"mongodb://127.0.0.1:27017/test"</span>);
 <span class="keyword">var</span> TestSchema = <span class="keyword">new</span> mongoose.Schema({
     name : { <span class="keyword">type</span>:<span class="built_in">String</span> },
@@ -291,7 +291,7 @@ TestEntity.save(<span class="function"><span class="keyword">function</span>(<sp
 <li>Model ：通过Schema构造而成，除了具有Schema定义的数据库骨架以外，还可以具体的操作数据库。</li>
 <li>Entity：通过Model创建的实体，它也可以操作数据库。<br>Schema、Model、Entity的关系请牢记，Schema生成Model，Model创造Entity，Model和Entity都可对数据库操作造成影响，但Model比Entity更具操作性</li>
 </ul>
-<h3 id="Model_基本的find查询">Model 基本的find查询</h3><p>使用Model进行基本的find查询： Model.find(查询条件,callback);</p>
+<h4 id="Model_基本的find查询">Model 基本的find查询</h4><p>使用Model进行基本的find查询： Model.find(查询条件,callback);</p>
 <pre><code>Model.find({},<span class="function"><span class="keyword">function</span>(<span class="params">error,docs</span>)</span>{
     <span class="comment">//若没有向find传递参数，默认的是显示所有文档</span>
  });
@@ -302,7 +302,7 @@ Model.find({ <span class="string">"age"</span>: <span class="number">28</span> }
      <span class="built_in">console</span>.log(docs); <span class="comment">//docs: age为28的所有文档</span>
    }
  }); 
-</code></pre><h3 id="Model_保存方法">Model 保存方法</h3><p> 语法：Model.create(文档数据, callback))<br> 示例 :</p>
+</code></pre><h4 id="Model_保存方法">Model 保存方法</h4><p> 语法：Model.create(文档数据, callback))<br> 示例 :</p>
 <pre><code>Model.create({ name:<span class="string">"model_create"</span>, age:<span class="number">26</span>}, <span class="function"><span class="keyword">function</span>(</span><span class="built_in">error</span>,doc){
        <span class="keyword">if</span>(<span class="built_in">error</span>) {
            console.<span class="built_in">log</span>(<span class="built_in">error</span>);
@@ -310,7 +310,7 @@ Model.find({ <span class="string">"age"</span>: <span class="number">28</span> }
            console.<span class="built_in">log</span>(doc);
        }
    });
-</code></pre><h3 id="Entity_保存方法">Entity 保存方法</h3><p>语法 : Entity.save(文档数据, callback))<br>示例:</p>
+</code></pre><h4 id="Entity_保存方法">Entity 保存方法</h4><p>语法 : Entity.save(文档数据, callback))<br>示例:</p>
 <pre><code>var Entity = <span class="keyword">new</span> Model({name:<span class="string">"entity_save"</span>,age: <span class="number">27</span>});  
 Entity.save(<span class="function"><span class="keyword">function</span>(</span><span class="built_in">error</span>,doc) {
     <span class="keyword">if</span>(<span class="built_in">error</span>) {
@@ -319,7 +319,7 @@ Entity.save(<span class="function"><span class="keyword">function</span>(</span>
         console.<span class="built_in">log</span>(doc);
     }
 });
-</code></pre><h3 id="Model_数据更新">Model 数据更新</h3><p>  语法 : Model.update(查询条件,更新对象,callback);<br>  示例:</p>
+</code></pre><h4 id="Model_数据更新">Model 数据更新</h4><p>  语法 : Model.update(查询条件,更新对象,callback);<br>  示例:</p>
 <pre><code>var conditions = {name : <span class="string">'test_update'</span>};
 var <span class="keyword">update</span> = {<span class="variable">$set</span> : { age : <span class="number">16</span> }};
 Model.<span class="keyword">update</span>(conditions, <span class="keyword">update</span>, <span class="keyword">function</span>(error){
@@ -329,7 +329,7 @@ Model.<span class="keyword">update</span>(conditions, <span class="keyword">upda
         console.log(<span class="string">'Update success!'</span>);
     }
 });
-</code></pre><h3 id="Model_删除数据">Model 删除数据</h3><p>语法 : Model.remove(查询条件,callback);<br>示例:</p>
+</code></pre><h4 id="Model_删除数据">Model 删除数据</h4><p>语法 : Model.remove(查询条件,callback);<br>示例:</p>
 <pre><code><span class="keyword">var</span> conditions = { name: <span class="string">'tom'</span> };
 Model.remove(conditions, <span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>{
     <span class="keyword">if</span>(error) {
@@ -338,21 +338,21 @@ Model.remove(conditions, <span class="function"><span class="keyword">function</
         <span class="built_in">console</span>.log(<span class="string">'Delete success!'</span>);
     }
 });
-</code></pre><h3 id="Model_find过滤查询">Model  find过滤查询</h3><p>语法 :  属性过滤 Model.find(Conditions,<em>field</em>,callback);<br><em>field</em> 说明：我们只需要把显示的属性设置为大于零的数就可以，当然1是最好理解的_id是默认返回 如果不要显示加上(“_id”:0)<br>但是 对其他不需要显示的属性且不是_id 如果设置为0的话将会抛异常或查询无果。<br>示例：<br>//返回只包含一个键值name、age的所有记录</p>
+</code></pre><h4 id="Model_find过滤查询">Model find过滤查询</h4><p>语法 :  属性过滤 Model.find(Conditions,<em>field</em>,callback);<br><em>field</em> 说明：我们只需要把显示的属性设置为大于零的数就可以，当然1是最好理解的_id是默认返回 如果不要显示加上(“_id”:0)<br>但是 对其他不需要显示的属性且不是_id 如果设置为0的话将会抛异常或查询无果。<br>示例：<br>//返回只包含一个键值name、age的所有记录</p>
 <pre><code><span class="tag">Model</span><span class="class">.find</span>({},{<span class="tag">name</span><span class="pseudo">:1</span>, <span class="tag">age</span><span class="pseudo">:1</span>, <span class="tag">_id</span><span class="pseudo">:0</span>}，<span class="tag">function</span>(err,docs){
    <span class="comment">//docs 查询结果集</span>
 })
-</code></pre><h3 id="Model_findOne的基本用法">Model findOne的基本用法</h3><p>与find相同，但只返回单个文档，也就说当查询到即一个符合条件的数据时，将停止继续查询，并返回查询结果。<br>单条数据查询语法: Model.findOne(Conditions,callback);</p>
+</code></pre><h4 id="Model_findOne的基本用法">Model findOne的基本用法</h4><p>与find相同，但只返回单个文档，也就说当查询到即一个符合条件的数据时，将停止继续查询，并返回查询结果。<br>单条数据查询语法: Model.findOne(Conditions,callback);</p>
 <pre><code><span class="tag">Model</span><span class="class">.findOne</span>({ <span class="tag">age</span>: <span class="tag">27</span>}, <span class="tag">function</span> (err, doc){
     <span class="comment">// 查询符合age等于27的第一条数据</span>
     <span class="comment">// doc是查询结果</span>
  });
 </code></pre><p>findOne方法，只返回第一个符合条件的文档数据。</p>
-<h3 id="Model_findById的基本用法">Model findById的基本用法</h3><p>与findOne相同，但它只接收文档的_id作为参数，返回单个文档。<br>单条数据查询语法: Model.findById(_id, callback);</p>
+<h4 id="Model_findById的基本用法">Model findById的基本用法</h4><p>与findOne相同，但它只接收文档的_id作为参数，返回单个文档。<br>单条数据查询语法: Model.findById(_id, callback);</p>
 <pre><code>TestModel.findById(<span class="string">'_id'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err, doc)</span></span>{
  <span class="comment">//doc 查询结果文档</span>
 });
-</code></pre><h3 id="Model_条件查询">Model 条件查询</h3><pre><code><span class="string">"<span class="variable">$lt</span>"</span>(小于)，<span class="string">"<span class="variable">$lte</span>"</span>(小于等于),<span class="string">"<span class="variable">$gt</span>"</span>(大于)，<span class="string">"<span class="variable">$gte</span>"</span>(大于等于)，<span class="string">"<span class="variable">$ne</span>"</span>(不等于)，<span class="string">"<span class="variable">$in</span>"</span>(可单值和多个值的匹配)，<span class="string">"<span class="variable">$or</span>"</span>(查询多个键值的任意给定值)，<span class="string">"<span class="variable">$exists</span>"</span>(表示是否存在的意思)<span class="string">"<span class="variable">$all</span>"</span>
+</code></pre><h4 id="Model_条件查询">Model 条件查询</h4><pre><code><span class="string">"<span class="variable">$lt</span>"</span>(小于)，<span class="string">"<span class="variable">$lte</span>"</span>(小于等于),<span class="string">"<span class="variable">$gt</span>"</span>(大于)，<span class="string">"<span class="variable">$gte</span>"</span>(大于等于)，<span class="string">"<span class="variable">$ne</span>"</span>(不等于)，<span class="string">"<span class="variable">$in</span>"</span>(可单值和多个值的匹配)，<span class="string">"<span class="variable">$or</span>"</span>(查询多个键值的任意给定值)，<span class="string">"<span class="variable">$exists</span>"</span>(表示是否存在的意思)<span class="string">"<span class="variable">$all</span>"</span>
 </code></pre><p><strong>使用$gt(&gt;)、$lt(&lt;)、$lte(&lt;=)、$gte(&gt;=)操作符进行排除性的查询，如下示例</strong></p>
 <pre><code>Model.find({<span class="string">"age"</span>:{<span class="string">"$gt"</span>:<span class="number">18</span>}},<span class="function"><span class="keyword">function</span><span class="params">(error,docs)</span></span>{
    <span class="comment">//查询所有nage大于18的数据</span>
@@ -406,13 +406,17 @@ Model.find({telephone: {<span class="variable">$exists</span>: false}},<span cla
 <pre><code><span class="tag">Model</span><span class="class">.find</span>({},null,{<span class="tag">skip</span><span class="pseudo">:0</span>,<span class="tag">limit</span><span class="pseudo">:2</span>,<span class="tag">sort</span>:{<span class="tag">age</span><span class="pseudo">:1</span>}},<span class="tag">function</span>(err,docs){
  <span class="comment">// ...</span>
 });
-</code></pre><h3 id="链式查询">链式查询</h3><p>这种方式相对直接查询，分的比较明细，如果不带 callback，则返回 query，<br>query 表示没有执行的预编译查询语句，该 query 对象执行的方法都将返回自己，<br>只有在执行 exec 方法时才执行查询，而且必须有回调。</p>
-<pre><code><span class="keyword">var</span> query = Model
-.find({ age: <span class="number">24</span>})
-.limit(<span class="number">10</span>)
-.skip(<span class="number">5</span>);
-query.exec(<span class="function"><span class="keyword">function</span><span class="params">(err,pserson)</span></span>{
-<span class="comment">//如果 err==null，则 person 就能取到数据</span>
+</code></pre><h4 id="链式查询">链式查询</h4><p>这种方式相对直接查询，分的比较明细，如果不带 callback，则返回 query，<br>query 表示没有执行的预编译查询语句，该 query 对象执行的方法都将返回自己，<br>只有在执行 exec 方法时才执行查询，而且必须有回调。</p>
+<pre><code><span class="keyword">var</span> <span class="keyword">query</span> = Model
+.find({ age: 24})
+.limit(10)
+.skip(5);
+<span class="keyword">query</span>.exec(function(<span class="keyword">err</span>,docs){
+  <span class="keyword">if</span>(<span class="keyword">err</span>){
+     <span class="comment">//...</span>
+    }<span class="keyword">else</span>{ 
+     console.<span class="literal">log</span>(docs);
+    }
 });
 </code></pre></span>
       
@@ -590,7 +594,7 @@ query.exec(<span class="function"><span class="keyword">function</span><span cla
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongoose是什么？"><span class="nav-number">1.</span> <span class="nav-text">Mongoose是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongoose能做什么？"><span class="nav-number">2.</span> <span class="nav-text">Mongoose能做什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongoose使用"><span class="nav-number">3.</span> <span class="nav-text">Mongoose使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装mongoose："><span class="nav-number">3.0.1.</span> <span class="nav-text">安装mongoose：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#引用mongoose"><span class="nav-number">3.0.2.</span> <span class="nav-text">引用mongoose</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用”mongoose”连接数据库："><span class="nav-number">3.0.3.</span> <span class="nav-text">使用”mongoose”连接数据库：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#名词解释_Schema,Model,Entity"><span class="nav-number">4.</span> <span class="nav-text">名词解释 Schema,Model,Entity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Schema_Model_Entity_完整示例"><span class="nav-number">5.</span> <span class="nav-text">Schema Model Entity 完整示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_基本的find查询"><span class="nav-number">6.</span> <span class="nav-text">Model 基本的find查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_保存方法"><span class="nav-number">7.</span> <span class="nav-text">Model 保存方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Entity_保存方法"><span class="nav-number">8.</span> <span class="nav-text">Entity 保存方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_数据更新"><span class="nav-number">9.</span> <span class="nav-text">Model 数据更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_删除数据"><span class="nav-number">10.</span> <span class="nav-text">Model 删除数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_find过滤查询"><span class="nav-number">11.</span> <span class="nav-text">Model  find过滤查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_findOne的基本用法"><span class="nav-number">12.</span> <span class="nav-text">Model findOne的基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_findById的基本用法"><span class="nav-number">13.</span> <span class="nav-text">Model findById的基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model_条件查询"><span class="nav-number">14.</span> <span class="nav-text">Model 条件查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链式查询"><span class="nav-number">15.</span> <span class="nav-text">链式查询</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongoose是什么"><span class="nav-number">1.</span> <span class="nav-text">Mongoose是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Mongoose能做什么"><span class="nav-number">1.1.</span> <span class="nav-text">Mongoose能做什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mongoose使用"><span class="nav-number">1.2.</span> <span class="nav-text">Mongoose使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装mongoose"><span class="nav-number">1.2.1.</span> <span class="nav-text">安装mongoose</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#引用mongoose"><span class="nav-number">1.2.2.</span> <span class="nav-text">引用mongoose</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用”mongoose”连接数据库"><span class="nav-number">1.2.3.</span> <span class="nav-text">使用”mongoose”连接数据库</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#名词解释_Schema,Model,Entity"><span class="nav-number">1.3.</span> <span class="nav-text">名词解释 Schema,Model,Entity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Schema_Model_Entity_完整示例"><span class="nav-number">1.4.</span> <span class="nav-text">Schema Model Entity 完整示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Model_基本的find查询"><span class="nav-number">1.5.</span> <span class="nav-text">Model 基本的find查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Model_保存方法"><span class="nav-number">1.6.</span> <span class="nav-text">Model 保存方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Entity_保存方法"><span class="nav-number">1.7.</span> <span class="nav-text">Entity 保存方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Model_数据更新"><span class="nav-number">1.8.</span> <span class="nav-text">Model 数据更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Model_删除数据"><span class="nav-number">1.9.</span> <span class="nav-text">Model 删除数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Model_find过滤查询"><span class="nav-number">1.10.</span> <span class="nav-text">Model find过滤查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Model_findOne的基本用法"><span class="nav-number">1.11.</span> <span class="nav-text">Model findOne的基本用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Model_findById的基本用法"><span class="nav-number">1.12.</span> <span class="nav-text">Model findById的基本用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Model_条件查询"><span class="nav-number">1.13.</span> <span class="nav-text">Model 条件查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#链式查询"><span class="nav-number">1.14.</span> <span class="nav-text">链式查询</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
