@@ -47,7 +47,7 @@ Mongoose是什么？Mongoose是MongoDB的一个对象模型工具，是基于nod
 <meta property="og:site_name" content="YakeZhang's Blog">
 <meta property="og:description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
 Mongoose是什么？Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针">
-<meta property="og:updated_time" content="2015-11-16T05:11:26.209Z">
+<meta property="og:updated_time" content="2015-11-16T05:16:05.926Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mongoose简单总结">
 <meta name="twitter:description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
@@ -352,8 +352,8 @@ Model.remove(conditions, <span class="function"><span class="keyword">function</
 <pre><code>TestModel.findById(<span class="string">'_id'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err, doc)</span></span>{
  <span class="comment">//doc 查询结果文档</span>
 });
-</code></pre><h3 id="Model_条件查询">Model 条件查询</h3><p>“$lt”(小于)，”$lte”(小于等于),”$gt”(大于)，”$gte”(大于等于)，”$ne”(不等于)，”$in”(可单值和多个值的匹配)，”$or”(查询多个键值的任意给定值)，”$exists”(表示是否存在的意思)”$all”</p>
-<p><strong>使用$gt(&gt;)、$lt(&lt;)、$lte(&lt;=)、$gte(&gt;=)操作符进行排除性的查询，如下示例</strong></p>
+</code></pre><h3 id="Model_条件查询">Model 条件查询</h3><pre><code><span class="string">"<span class="variable">$lt</span>"</span>(小于)，<span class="string">"<span class="variable">$lte</span>"</span>(小于等于),<span class="string">"<span class="variable">$gt</span>"</span>(大于)，<span class="string">"<span class="variable">$gte</span>"</span>(大于等于)，<span class="string">"<span class="variable">$ne</span>"</span>(不等于)，<span class="string">"<span class="variable">$in</span>"</span>(可单值和多个值的匹配)，<span class="string">"<span class="variable">$or</span>"</span>(查询多个键值的任意给定值)，<span class="string">"<span class="variable">$exists</span>"</span>(表示是否存在的意思)<span class="string">"<span class="variable">$all</span>"</span>
+</code></pre><p><strong>使用$gt(&gt;)、$lt(&lt;)、$lte(&lt;=)、$gte(&gt;=)操作符进行排除性的查询，如下示例</strong></p>
 <pre><code>Model.find({<span class="string">"age"</span>:{<span class="string">"$gt"</span>:<span class="number">18</span>}},<span class="function"><span class="keyword">function</span><span class="params">(error,docs)</span></span>{
    <span class="comment">//查询所有nage大于18的数据</span>
 });
@@ -363,8 +363,7 @@ Model.find({<span class="string">"age"</span>:{<span class="string">"$lt"</span>
 Model.find({<span class="string">"age"</span>:{<span class="string">"$gt"</span>:<span class="number">18</span>,<span class="string">"$lt"</span>:<span class="number">60</span>}},<span class="function"><span class="keyword">function</span><span class="params">(error,docs)</span></span>{
    <span class="comment">//查询所有nage大于18小于60的数据</span>
 });
-</code></pre><p><strong>$ne(!=)操作符的含义相当于不等于、不包含，查询时我们可通过它进行条件判定，具体使用方法如下</strong><br>    Model.find({ age:{ $ne:24}},function(error,docs){<br>        //查询age不等于24的所有数据<br>    });<br>    Model.find({name:{$ne:”tom”},age:{$gte:18}},function(error,docs){<br>      //查询name不等于tom、age&gt;=18的所有数据<br>    });<br><strong>和$ne操作符相反，$in相当于包含、等于，查询时查找包含于指定字段条件的数据。具体使用方法如下</strong><br>    Model.find({ age:{ $in: 20}},function(error,docs){<br>       //查询age等于20的所有数据<br>    });<br>    Model.find({ age:{$in:[20,30]}},function(error,docs){<br>      //可以把多个值组织成一个数组<br>    });<br><strong>$or操作符，可以查询多个键值的任意给定值，只要满足其中一个就可返回，用于存在多个条件判定的情况下使用，如下示例</strong><br> Model.find({“$or”:[{“name”:”yaya”},{“age”:28}]},function(error,docs){<br>      //查询name为yaya或age为28的全部文档<br>    });<br><strong>$exists操作符，可用于判断某些关键字段是否存在来进行条件查询。如下示例</strong><br>    Model.find({name: {$exists: true}},function(error,docs){<br>      //查询所有存在name属性的文档<br>    });<br>    Model.find({telephone: {$exists: false}},function(error,docs){<br>      //查询所有不存在telephone属性的文档<br>    });</p>
-<p><strong>limit的基本用法</strong><br>限制返回数量语法：Model.find(Conditions,fields,<strong>options</strong>,callback);<br>示例：</p>
+</code></pre><p><strong>$ne(!=)操作符的含义相当于不等于、不包含，查询时我们可通过它进行条件判定，具体使用方法如下</strong><br>    Model.find({ age:{ $ne:24}},function(error,docs){<br>        //查询age不等于24的所有数据<br>    });<br>    Model.find({name:{$ne:”tom”},age:{$gte:18}},function(error,docs){<br>      //查询name不等于tom、age&gt;=18的所有数据<br>    });<br><strong>和$ne操作符相反，$in相当于包含、等于，查询时查找包含于指定字段条件的数据。具体使用方法如下</strong><br>    Model.find({ age:{ $in: 20}},function(error,docs){<br>       //查询age等于20的所有数据<br>    });<br>    Model.find({ age:{$in:[20,30]}},function(error,docs){<br>      //可以把多个值组织成一个数组<br>    });<br><strong>$or操作符，可以查询多个键值的任意给定值，只要满足其中一个就可返回，用于存在多个条件判定的情况下使用，如下示例</strong><br> Model.find({“$or”:[{“name”:”yaya”},{“age”:28}]},function(error,docs){<br>      //查询name为yaya或age为28的全部文档<br>    });<br><strong>$exists操作符，可用于判断某些关键字段是否存在来进行条件查询。如下示例</strong><br>    Model.find({name: {$exists: true}},function(error,docs){<br>      //查询所有存在name属性的文档<br>    });<br>    Model.find({telephone: {$exists: false}},function(error,docs){<br>      //查询所有不存在telephone属性的文档<br>    });<br><strong>limit的基本用法</strong><br>限制返回数量语法：Model.find(Conditions,fields,<strong>options</strong>,callback);<br>示例：</p>
 <pre><code><span class="tag">Model</span><span class="class">.find</span>(<span class="rules">{}</span>,<span class="tag">null</span>,**<span class="rules">{<span class="rule"><span class="attribute">limit</span>:<span class="value"><span class="number">20</span>}**,<span class="function">function</span>(err,docs){
     console.<span class="function">log</span>(docs)</span></span>;
 }</span>);
