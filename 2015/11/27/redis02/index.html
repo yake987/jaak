@@ -39,16 +39,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/jaak/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="列表(Lists)操作命令　　Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素导列表的头部（左边）或者尾部（右边） LPUSH 命令插入一个新的元素导头部,而RPUSH插入一个新元">
+<meta name="description" content="列表(Lists)操作命令　　Redis列表是简单的字符串列表，按照插入顺序排序。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redis命令学习(二)">
 <meta property="og:url" content="http://yake987.github.io/jaak/2015/11/27/redis02/index.html">
 <meta property="og:site_name" content="YakeZhang's Blog">
-<meta property="og:description" content="列表(Lists)操作命令　　Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素导列表的头部（左边）或者尾部（右边） LPUSH 命令插入一个新的元素导头部,而RPUSH插入一个新元">
-<meta property="og:updated_time" content="2015-11-27T09:59:04.777Z">
+<meta property="og:description" content="列表(Lists)操作命令　　Redis列表是简单的字符串列表，按照插入顺序排序。">
+<meta property="og:updated_time" content="2015-11-27T10:13:41.828Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis命令学习(二)">
-<meta name="twitter:description" content="列表(Lists)操作命令　　Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素导列表的头部（左边）或者尾部（右边） LPUSH 命令插入一个新的元素导头部,而RPUSH插入一个新元">
+<meta name="twitter:description" content="列表(Lists)操作命令　　Redis列表是简单的字符串列表，按照插入顺序排序。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -218,7 +218,7 @@
       
 
       
-        <span itemprop="articleBody"><h3 id="列表(Lists)操作命令">列表(Lists)操作命令</h3><p>　　Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素导列表的头部（左边）或者尾部（右边） LPUSH 命令插入一个新的元素导头部,而RPUSH插入一个新元<br><a id="more"></a><br>素导尾部.当一个这两个操作在一个空的Key上被执行的时候一个新的列表被创建。相似的，如果一个列表操作清空一个列表那么对应的key将被从key空间删除。这是非常方便的语义，因为他们被调用使用一个空列表完全就像他们被调用时使用一个不存在的键值（可以）做为参数</p>
+        <span itemprop="articleBody"><h3 id="列表(Lists)操作命令">列表(Lists)操作命令</h3><p>　　Redis列表是简单的字符串列表，按照插入顺序排序。<br><a id="more"></a><br>你可以添加一个元素导列表的头部（左边）或者尾部（右边）LPUSH命令插入一个新的元素导头部,而RPUSH插入一个新元素导尾部.当一个这两个操作在一个空的Key上被执行的时候一个新的列表被创建。相似的，如果一个列表操作清空一个列表那么对应的key将被从key空间删除。这是非常方便的语义，因为他们被调用使用一个空列表完全就像他们被调用时使用一个不存在的键值（可以）做为参数</p>
 <h4 id="LPUSH命令_-_添加元素">LPUSH命令 - 添加元素</h4><p>LPUSH的作用是将一个或多个值 value 插入到列表 key 的<strong>表头</strong><br>基本语法：<br><figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LPUSH <span class="built_in">key</span> <span class="built_in">value</span> [<span class="built_in">value</span> ...]</span><br></pre></td></tr></table></figure></p>
 <p>示例：将java添加到语言列表。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LPUSH languages <span class="string">"java"</span></span><br><span class="line">(integer) <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
 <p>如果有多个 value 值，那么各个 value 值按从左到右的顺序依次插入到表头,比如说，对空列表 mylist 执行命令 LPUSH mylist a b c ，列表的值将是 c b a 。<br>如果 key 不存在，一个空列表会被创建并执行LPUSH操作。<br>执行成功时，返回列表长度，当 key 存在但不是列表类型时，返回一个错误。</p>
