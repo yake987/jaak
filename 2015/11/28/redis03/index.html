@@ -1,0 +1,722 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="VvyjvVXcJQa0QklHipu6pwm2PJGnnchIqX7s5JbbT_0" />
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/jaak/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/jaak/css/main.css?v=0.4.5.1"/>
+
+
+
+
+  <meta name="keywords" content="redis," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/jaak/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="有序集合(ZSet)操作命令　　Redis 有序集合与普通集合非常相似，是一个没有重复元素的字符串集合。不同之处是有序集合的每个成员都关联了一个评分，这个评分被用来按照从最低分到最高分的方式排序集合中的成员。集合的成员是唯一的，但评分可以重复。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis命令学习(三)">
+<meta property="og:url" content="http://yake987.github.io/jaak/2015/11/28/redis03/index.html">
+<meta property="og:site_name" content="YakeZhang's Blog">
+<meta property="og:description" content="有序集合(ZSet)操作命令　　Redis 有序集合与普通集合非常相似，是一个没有重复元素的字符串集合。不同之处是有序集合的每个成员都关联了一个评分，这个评分被用来按照从最低分到最高分的方式排序集合中的成员。集合的成员是唯一的，但评分可以重复。">
+<meta property="og:updated_time" content="2015-12-02T09:16:03.745Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis命令学习(三)">
+<meta name="twitter:description" content="有序集合(ZSet)操作命令　　Redis 有序集合与普通集合非常相似，是一个没有重复元素的字符串集合。不同之处是有序集合的每个成员都关联了一个评分，这个评分被用来按照从最低分到最高分的方式排序集合中的成员。集合的成员是唯一的，但评分可以重复。">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> redis命令学习(三) | YakeZhang's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?50c15455e37f70aea674ff4a663eef27";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/jaak/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">YakeZhang's Blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/jaak" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/jaak/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/jaak/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/jaak/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/jaak/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              redis命令学习(三)
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-11-28T16:25:12+08:00" content="2015-11-28">
+            2015-11-28
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/jaak/2015/11/28/redis03/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/28/redis03/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h3 id="有序集合(ZSet)操作命令">有序集合(ZSet)操作命令</h3><p>　　Redis 有序集合与普通集合非常相似，是一个没有重复元素的字符串集合。不同之处是有序集合的每个成员都关联了一个评分，这个评分被用来按照从最低分到最高分的方式排序集合中的成员。集合的成员是唯一的，但评分可以重复。<br><a id="more"></a><br>　　使用有序集合你可以以非常快的速度添加、删除和更新元素。因为元素是有序的, 所以你也可以很快的根据评分（score）或者次序（position）来获取一个范围的元素。<br>　　访问有序集合的中间元素也是非常快的,因此你能够使用有序集合作为一个没有重复成员的智能列表。在有序集合中，你可以很快捷的访问一切你需要的东西：有序的元素，快速的存在性测试，快速访问集合的中间元素！ 简而言之使用有序集合你可以做完成许多对性能有极端要求的任务，而那些任务使用其他类型的数据库真的是很难完成的。</p>
+<h4 id="ZADD_命令_-_添加成员">ZADD 命令 - 添加成员</h4><p>在redis中，使用ZADD命令将一个或多个 member 元素及其 score 值加入到有序集 key 当中<br>基本语法：<br><figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZADD key score <span class="keyword">member</span> [[score <span class="keyword">member</span>] [score <span class="keyword">member</span>] ...]</span><br></pre></td></tr></table></figure></p>
+<p>示例 - 添加google.com,baidu.com,sougou.com到website集合，评分5 , 4 , 3。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZADD website <span class="number">5</span> google.com <span class="number">4</span> baidu.com <span class="number">3</span> sougou.com                      </span><br><span class="line">(integer) <span class="number">3</span></span><br></pre></td></tr></table></figure></p>
+<p>如果某个 member 已经是有序集的成员，那么更新这个 member 的 score 值，并通过重新插入这个 member 元素，来保证该 member 在正确的位置上。<br>score 值可以是整数值或双精度浮点数。<br>如果 key 不存在，则创建一个空的有序集并执行ZADD操作。<br>当 key 存在但不是有序集类型时，返回一个错误。</p>
+<h4 id="ZRANGE命令_-_获取指定区域成员">ZRANGE命令 - 获取指定区域成员</h4><p>如果想要获取集合成员，可以使用ZRANGE命令<br>基本语法：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZRANGE key <span class="built_in">start</span> <span class="built_in">stop</span> [WITHSCORES]</span><br></pre></td></tr></table></figure></p>
+<p>示例 - 获取website集合的全部成员。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZRANGE website <span class="number">0</span> -<span class="number">1</span> WITHSCORES  <span class="preprocessor"># 显示整个有序集成员                                      </span></span><br><span class="line"><span class="number">1</span>) <span class="string">"sougou.com"</span>                                                                </span><br><span class="line"><span class="number">2</span>) <span class="string">"3"</span>                                                           </span><br><span class="line"><span class="number">3</span>) <span class="string">"baidu.com"</span>                                                                 </span><br><span class="line"><span class="number">4</span>) <span class="string">"4"</span>                  </span><br><span class="line"><span class="number">5</span>) <span class="string">"google.com"</span></span><br><span class="line"><span class="number">6</span>) <span class="string">"5"</span></span><br></pre></td></tr></table></figure></p>
+<p>返回的成员的位置按 score 值递增(从小到大)来排序。</p>
+<h4 id="ZSCORE命令_-_获取成员评分">ZSCORE命令 - 获取成员评分</h4><p>redis中使用ZSCORE命令来获取成员评分<br>基本语法：<br><figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZSCORE key <span class="keyword">member</span></span><br></pre></td></tr></table></figure></p>
+<p>示例 - 获取集合website中元素google.com的评分。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZSCORE website google.com  <span class="preprocessor"># 注意返回值是字符串</span></span><br><span class="line"><span class="string">"5"</span></span><br></pre></td></tr></table></figure></p>
+<p>如果 google.com 是集合 website 的成员，则返回成员 google.com 的评分值。<br>如果 google.com 元素不是有序集 website 的成员，或 website 不存在，则返回 nil 。</p>
+<h4 id="ZREM命令_-_移除成员">ZREM命令 - 移除成员</h4><p>ZREM命令可以移除指定成员<br>基本语法：<br><figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Z<span class="comment">REM key member [member ...]</span></span><br></pre></td></tr></table></figure></p>
+<p>示例 - 移除website集合中google.com元素。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZREM website google.com    </span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZRANGE website <span class="number">0</span> -<span class="number">1</span> WITHSCORES   <span class="preprocessor">#显示没有google.com </span></span><br><span class="line"><span class="number">1</span>) <span class="string">"sougou.com"</span>   </span><br><span class="line"><span class="number">2</span>) <span class="string">"3"</span> </span><br><span class="line"><span class="number">3</span>) <span class="string">"baidu.com"</span>                      </span><br><span class="line"><span class="number">4</span>) <span class="string">"4"</span></span><br></pre></td></tr></table></figure></p>
+<p>执行成功，google.com元素将从website集合中移除，如果google.com不存在，将被忽略。<br>如果 website 集合存在但不是有序集类型时，返回一个错误。</p>
+<h4 id="ZCARD命令_-_获取成员数量">ZCARD命令 - 获取成员数量</h4><p>如果需要查看集合成员的数量，那么我们需要使用到ZCARD命令<br>基本语法：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">ZCARD</span> key</span><br></pre></td></tr></table></figure></p>
+<p>示例 - 查看website集合的成员数量。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="function">ZCARD <span class="title">website</span></span><br><span class="line"><span class="params">(integer)</span> 2</span></span><br></pre></td></tr></table></figure></p>
+<p>执行成功，将返回有序集 website 的成员总数。</p>
+<h4 id="ZCOUNT命令_-_获取评分区域成员数量">ZCOUNT命令 - 获取评分区域成员数量</h4><p>除了ZCARD命令以外，ZCOUNT命令也可以查看成员的数量，和前者不同的是，ZCOUNT命令可以设定评分的最小和最大值<br>基本语法：<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZCOUNT <span class="variable">key</span> <span class="built_in">min</span> <span class="built_in">max</span></span><br></pre></td></tr></table></figure></p>
+<p>示例 - 查看评分在4-5之间的website。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZCOUNT salary <span class="number">4</span> <span class="number">5</span>  </span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZRANGE website <span class="number">0</span> -<span class="number">1</span> WITHSCORES   <span class="preprocessor"># baidu.com <span class="number">4</span>        </span></span><br><span class="line"><span class="number">1</span>) <span class="string">"sougou.com"</span> </span><br><span class="line"><span class="number">2</span>) <span class="string">"3"</span> </span><br><span class="line"><span class="number">3</span>) <span class="string">"baidu.com"</span>   </span><br><span class="line"><span class="number">4</span>) <span class="string">"4"</span></span><br></pre></td></tr></table></figure></p>
+<p>执行成功，将返回有序集 key 中， score 值在 min 和 max 之间(默认包括 score 值等于 min 或 max )的成员的数量。</p>
+<h4 id="ZRANK命令_-_排名">ZRANK命令 - 排名</h4><p>ZRANK命令可以获取到给定元素在集合中的排名，排名依据 评分（score） 值递增(从小到大)顺序排列<br>基本语法：<br><figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZRANK key <span class="keyword">member</span></span><br></pre></td></tr></table></figure></p>
+<p>示例 - 显示 baidu.com 的评分排名。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZRANGE website <span class="number">0</span> -<span class="number">1</span> WITHSCORES                          </span><br><span class="line"><span class="number">1</span>) <span class="string">"sougou.com"</span>                                                    </span><br><span class="line"><span class="number">2</span>) <span class="string">"3"</span> </span><br><span class="line"><span class="number">3</span>) <span class="string">"baidu.com"</span>                                                   </span><br><span class="line"><span class="number">4</span>) <span class="string">"4"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZRANK website baidu.com </span><br><span class="line">(integer) <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>排名以 0 为底，也就是说， score 值最小的成员排名为 0 。<br>使用 ZREVRANK 命令可以获得成员按 score 值递减(从大到小)排列的排名。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZREVRANK website baidu.com     </span><br><span class="line">(integer) <span class="number">0</span>                                </span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZRANGE website <span class="number">0</span> -<span class="number">1</span> WITHSCORES        </span><br><span class="line"><span class="number">1</span>) <span class="string">"sougou.com"</span>                                            </span><br><span class="line"><span class="number">2</span>) <span class="string">"3"</span>                                   </span><br><span class="line"><span class="number">3</span>) <span class="string">"baidu.com"</span>                  </span><br><span class="line"><span class="number">4</span>) <span class="string">"4"</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="ZINCRBY_命令_-_增量">ZINCRBY 命令 - 增量</h4><p>ZINCRBY命令可以为给定的成员评分值加上增量<br>语法格式：<br><strong>ZINCRBY key increment member</strong><br>示例 - 为website集合中的baidu.com加分5。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZRANGE website <span class="number">0</span> -<span class="number">1</span> WITHSCORES                                  </span><br><span class="line"><span class="number">1</span>) <span class="string">"sougou.com"</span>                                            </span><br><span class="line"><span class="number">2</span>) <span class="string">"3"</span>                                                           </span><br><span class="line"><span class="number">3</span>) <span class="string">"baidu.com"</span>                                                         </span><br><span class="line"><span class="number">4</span>) <span class="string">"4"</span>  <span class="preprocessor"># 原来 <span class="number">4</span></span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZINCRBY website <span class="number">5</span> baidu.com   <span class="preprocessor"># 加分<span class="number">5</span>                       </span></span><br><span class="line"><span class="string">"9"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; ZRANGE website <span class="number">0</span> -<span class="number">1</span> WITHSCORES      </span><br><span class="line"><span class="number">1</span>) <span class="string">"sougou.com"</span>                                                </span><br><span class="line"><span class="number">2</span>) <span class="string">"3"</span>                                                          </span><br><span class="line"><span class="number">3</span>) <span class="string">"baidu.com"</span>                                                    </span><br><span class="line"><span class="number">4</span>) <span class="string">"9"</span>   <span class="preprocessor"># 加后 <span class="number">9</span></span></span><br></pre></td></tr></table></figure></p>
+<p>可以通过传递一个负数值 increment ，让 score 减去相应的值，比如 ZINCRBY key -5 member ，就是让 member 的 score 值减去 5 。<br>当 key 不存在，或 member 不是 key 的成员时， ZINCRBY key increment member 等同于 ZADD key increment member 。<br>当 key 不是有序集类型时，返回一个错误。<br>score 值可以是整数值或双精度浮点数。</p>
+<h3 id="Key相关命令">Key相关命令</h3><h4 id="KEYS命令_-_查找键">KEYS命令 - 查找键</h4><p>Redis 的keys命令用于管理键。使用 Redis 的keys命令,查找所有符合给定模式 pattern 的 key 。<br>语法格式：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">KEYS</span> pattern</span><br></pre></td></tr></table></figure></p>
+<p>示例 - 查找包含a的键。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; MSET name <span class="string">"zhang"</span> age <span class="number">24</span> sex <span class="number">1</span>   <span class="preprocessor">#设置三个键值对                                             </span></span><br><span class="line">OK                                                                             </span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; KEYS *a*                                                       </span><br><span class="line"><span class="number">1</span>) <span class="string">"age"</span>                                                              </span><br><span class="line"><span class="number">2</span>) <span class="string">"name"</span></span><br></pre></td></tr></table></figure></p>
+<p>KEYS <em> 匹配数据库中所有 key 。<br>KEYS h?llo 匹配 hello ， hallo 和 hxllo 等。<br>KEYS h</em>llo 匹配 hllo 和 heeeeello 等。<br>KEYS h[ae]llo 匹配 hello 和 hallo 。<br>特殊符号用 \ 隔开。</p>
+<h4 id="EXISTS命令_-_判断key是否存在">EXISTS命令 - 判断key是否存在</h4><p>EXISTS命令的作用是判断指定key是否存在<br>语法格式：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">EXISTS</span> key</span><br></pre></td></tr></table></figure></p>
+<p>示例 - 判断age是否存在。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; MSET name <span class="string">"zhang"</span> age <span class="number">24</span> sex <span class="number">1</span>                         </span><br><span class="line">OK                                         </span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="function">EXISTS <span class="title">age</span>                                                    </span><br><span class="line"><span class="params">(integer)</span> 1</span></span><br></pre></td></tr></table></figure></p>
+<p>若 key 存在，返回 1 ，否则返回 0 </p>
+<h4 id="MOVE命令_-_移动key">MOVE命令 - 移动key</h4><p>MOVE命令的作用是将当前数据库的 key 移动到给定的数据库 db 当中<br>语法如下：<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MOVE</span> key <span class="keyword">db</span></span><br></pre></td></tr></table></figure></p>
+<p>如果当前数据库(源数据库)和给定数据库(目标数据库)有相同名字的给定 key ，或者 key 不存在于当前数据库，那么 MOVE 没有任何效果。<br>因此，也可以利用这一特性，将 MOVE 当作锁(locking)原语(primitive)。<br>示例 - 将数据库0中的age，移动到数据库1。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span><span class="pseudo">:6379</span>&gt; <span class="tag">SELECT</span> 0   </span><br><span class="line"># <span class="tag">redis</span>默认使用数据库0，为了清晰起见，这里再显式指定一次                       </span><br><span class="line"><span class="tag">OK</span>                                       </span><br><span class="line">127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span><span class="pseudo">:6379</span>&gt; <span class="tag">MOVE</span> <span class="tag">age</span> 1                               </span><br><span class="line">(<span class="tag">integer</span>) 1  </span><br><span class="line">127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span><span class="pseudo">:6379</span>&gt; <span class="tag">EXISTS</span> <span class="tag">age</span>                                                 </span><br><span class="line">(<span class="tag">integer</span>) 0                                                                    </span><br><span class="line">127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span><span class="pseudo">:6379</span>&gt; <span class="tag">SELECT</span> 1                                                  </span><br><span class="line"><span class="tag">OK</span>                                                                             </span><br><span class="line">127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span><span class="pseudo">:6379</span><span class="attr_selector">[1]</span>&gt; <span class="tag">EXISTS</span> <span class="tag">age</span>   </span><br><span class="line">#注意命令提示符变成127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span><span class="pseudo">:6379</span><span class="attr_selector">[1]</span> 表明正在使用数据库 1                                                                   </span><br><span class="line">(<span class="tag">integer</span>) 1</span><br></pre></td></tr></table></figure></p>
+<h4 id="RENAME命令_-_重命名">RENAME命令 - 重命名</h4><p>RENAME命令可以将原有的 key 修改为新的key名称<br>语法如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">RENAME</span> <span class="keyword">key</span> newkey</span></span><br></pre></td></tr></table></figure></p>
+<p>示例 - 重命名name 为 lastname。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; GET  name     <span class="preprocessor"># 获取当前name的值  </span></span><br><span class="line"><span class="string">"zhang"</span>                                                                        </span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; RENAME name lastname <span class="preprocessor"># 重命名name 为 lastname            </span></span><br><span class="line">OK                                                                             </span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; GET name   <span class="preprocessor"># 获取当前name的值 已经不存在                       </span></span><br><span class="line">(nil)</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; GET lastname                                                   </span><br><span class="line"><span class="string">"zhang"</span></span><br></pre></td></tr></table></figure></p>
+<p>当 key 和 newkey 相同，或者 key 不存在时，返回一个错误。<br>当 newkey 已经存在时， RENAME 命令将覆盖旧值。</p>
+<h4 id="SORT命令_-_排序">SORT命令 - 排序</h4><p>排序是很常见的需求，在 redis 中可以使用SORT命令来实现排序<br>语法格式：<br><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SORT key <span class="comment">[BY pattern]</span> <span class="comment">[LIMIT offset count]</span> <span class="comment">[GET pattern <span class="comment">[GET pattern ...]</span>]</span> <span class="comment">[ASC | DESC]</span> <span class="comment">[ALPHA]</span> <span class="comment">[STORE destination]</span></span><br></pre></td></tr></table></figure></p>
+<p>示例 对一个number列表排序<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; LPUSH number <span class="number">6</span> <span class="number">2</span> <span class="number">5</span> <span class="number">9</span> <span class="number">1</span> <span class="number">3</span> <span class="number">8</span>                               </span><br><span class="line">(integer) <span class="number">7</span>                                                                    </span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; SORT number                                                    </span><br><span class="line"><span class="number">1</span>) <span class="string">"1"</span>                                                                         </span><br><span class="line"><span class="number">2</span>) <span class="string">"2"</span>                                                                         </span><br><span class="line"><span class="number">3</span>) <span class="string">"3"</span>                                         </span><br><span class="line"><span class="number">4</span>) <span class="string">"5"</span>    </span><br><span class="line"><span class="number">5</span>) <span class="string">"6"</span>     </span><br><span class="line"><span class="number">6</span>) <span class="string">"8"</span> </span><br><span class="line"><span class="number">7</span>) <span class="string">"9"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; SORT number DESC   </span><br><span class="line"><span class="number">1</span>) <span class="string">"9"</span>            </span><br><span class="line"><span class="number">2</span>) <span class="string">"8"</span>    </span><br><span class="line"><span class="number">3</span>) <span class="string">"6"</span>   </span><br><span class="line"><span class="number">4</span>) <span class="string">"5"</span></span><br><span class="line"><span class="number">5</span>) <span class="string">"3"</span></span><br><span class="line"><span class="number">6</span>) <span class="string">"2"</span></span><br><span class="line"><span class="number">7</span>) <span class="string">"1"</span></span><br></pre></td></tr></table></figure></p>
+<p>使用SORT命令，可以返回或保存给定列表、集合、有序集合 key 中经过排序的元素。<br>排序默认以数字作为对象，值被解释为双精度浮点数，然后进行比较。</p>
+<h4 id="DUMP命令_-_序列化">DUMP命令 - 序列化</h4><p>redis 支持序列化，使用DUMP命令来序列化给定key的值<br>语法如下：<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DUMP</span> key</span><br></pre></td></tr></table></figure></p>
+<p>示例 - 序列化name。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; SET name <span class="string">"jaak"</span></span><br><span class="line">OK</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; GET name</span><br><span class="line"><span class="string">"jaak"</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; DUMP name</span><br><span class="line"><span class="string">"\x00\x04jaak\x06\x00\x02\xd6\xed3n\x91d\xe5"</span></span><br></pre></td></tr></table></figure></p>
+<p>执行DUMP命令序列化成功后，将返回被序列化的值，若key不存在，则返回 nil 。</p>
+<h4 id="EXPIRE命令_-_设置生存时间">EXPIRE命令 - 设置生存时间</h4><p>为key设置生存时间需要使用EXPIRE命令<br>语法格式：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPIRE key <span class="built_in">seconds</span></span><br></pre></td></tr></table></figure></p>
+<p>示例 - 设置name的过期时间为20秒。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; GET name</span><br><span class="line"><span class="string">"jaak"</span> </span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; EXPIRE name <span class="number">20</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"> <span class="preprocessor"># <span class="number">20</span>秒后执行</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="function">GET <span class="title">name</span></span><br><span class="line"><span class="params">(nil)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>为给定 key 设置生存时间，当 key 过期时(生存时间为 0 )，它会被自动删除。<br>在 Redis 中，带有生存时间的 key 被称为『易失的』(volatile)。</p>
+<p>生存时间可以通过使用 DEL 命令来删除整个 key 来移除，或者被 SET 和 GETSET 命令覆写(overwrite)，这意味着，如果一个命令只是修改(alter)一个带生存时间的 key 的值而不是用一个新的 key 值来代替(replace)它的话，那么生存时间不会被改变。</p>
+<h4 id="TTL命令_-_获取剩余生存时间">TTL命令 - 获取剩余生存时间</h4><p>TTL命令的作用是获取给定 key 剩余生存时间(TTL, time to live)<br>语法格式：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">TTL</span>  key</span><br></pre></td></tr></table></figure></p>
+<p>示例 - 查看key剩余生存时间。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; EXPIRE sex <span class="number">1000</span></span><br><span class="line">(integer) <span class="number">1</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="function">TTL <span class="title">key</span></span><br><span class="line"><span class="params">(integer)</span> 996</span></span><br></pre></td></tr></table></figure></p>
+<p>当 key 不存在时，返回 -2 。 当 key 存在但没有设置剩余生存时间时，返回 -1 。 否则，以秒为单位，返回 key 的剩余生存时间</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/jaak/tags/redis/" rel="tag">#redis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/jaak/2015/11/27/redis02/" rel="next">redis命令学习(二)</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/11/28/redis03/"
+     data-title="redis命令学习(三)"
+     data-content=""
+     data-url="http://yake987.github.io/jaak/2015/11/28/redis03/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/11/28/redis03/"
+                   data-title="redis命令学习(三)" data-url="http://yake987.github.io/jaak/2015/11/28/redis03/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars0.githubusercontent.com/u/10769615?v=3&s=460" alt="Yake Zhang" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Yake Zhang</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/jaak/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/jaak/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/jaak/tags">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yake987" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jaakzh" target="_blank">Weibo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://douban.com/people/" target="_blank">DouBan</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/" target="_blank">ZhiHu</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/jaak/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#有序集合(ZSet)操作命令"><span class="nav-number">1.</span> <span class="nav-text">有序集合(ZSet)操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ZADD_命令_-_添加成员"><span class="nav-number">1.1.</span> <span class="nav-text">ZADD 命令 - 添加成员</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZRANGE命令_-_获取指定区域成员"><span class="nav-number">1.2.</span> <span class="nav-text">ZRANGE命令 - 获取指定区域成员</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZSCORE命令_-_获取成员评分"><span class="nav-number">1.3.</span> <span class="nav-text">ZSCORE命令 - 获取成员评分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZREM命令_-_移除成员"><span class="nav-number">1.4.</span> <span class="nav-text">ZREM命令 - 移除成员</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZCARD命令_-_获取成员数量"><span class="nav-number">1.5.</span> <span class="nav-text">ZCARD命令 - 获取成员数量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZCOUNT命令_-_获取评分区域成员数量"><span class="nav-number">1.6.</span> <span class="nav-text">ZCOUNT命令 - 获取评分区域成员数量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZRANK命令_-_排名"><span class="nav-number">1.7.</span> <span class="nav-text">ZRANK命令 - 排名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZINCRBY_命令_-_增量"><span class="nav-number">1.8.</span> <span class="nav-text">ZINCRBY 命令 - 增量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Key相关命令"><span class="nav-number">2.</span> <span class="nav-text">Key相关命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#KEYS命令_-_查找键"><span class="nav-number">2.1.</span> <span class="nav-text">KEYS命令 - 查找键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EXISTS命令_-_判断key是否存在"><span class="nav-number">2.2.</span> <span class="nav-text">EXISTS命令 - 判断key是否存在</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MOVE命令_-_移动key"><span class="nav-number">2.3.</span> <span class="nav-text">MOVE命令 - 移动key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RENAME命令_-_重命名"><span class="nav-number">2.4.</span> <span class="nav-text">RENAME命令 - 重命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SORT命令_-_排序"><span class="nav-number">2.5.</span> <span class="nav-text">SORT命令 - 排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DUMP命令_-_序列化"><span class="nav-number">2.6.</span> <span class="nav-text">DUMP命令 - 序列化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EXPIRE命令_-_设置生存时间"><span class="nav-number">2.7.</span> <span class="nav-text">EXPIRE命令 - 设置生存时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TTL命令_-_获取剩余生存时间"><span class="nav-number">2.8.</span> <span class="nav-text">TTL命令 - 获取剩余生存时间</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2011 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yake Zhang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/jaak/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yakezhang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+    
+  
+  
+  <script type="text/javascript" src="/jaak/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/jaak/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/jaak/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/jaak/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/jaak/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/jaak/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/jaak/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/jaak/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/jaak/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/jaak/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/jaak/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
