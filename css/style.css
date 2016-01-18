@@ -1187,7 +1187,6 @@ color
   margin: 30px;
   margin-bottom: 5px;
   position: relative;
-  border: 1px solid #ddd;
   background: rgba(255,255,255,0.45);
   opacity: 0;
   -webkit-transition: all 0.2s ease-in;
