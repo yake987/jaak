@@ -137,7 +137,7 @@ body,
   height: 100%;
 }
 body {
-  font-family: "Microsoft YaHei", "Lucida Grande", Verdana, "Helvetica Neue", Arial, sans-serif, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+  font-family: "微软雅黑", "Lucida Grande", Verdana, "Helvetica Neue", Arial, sans-serif, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
   font-size: 16px;
   background: #fff;
   color: rgba(0,0,0,0.6);
@@ -161,7 +161,7 @@ h3 {
 }
 h1 {
   font-size: 1.5em;
-  font-family: "Segoe UI", "Microsoft YaHei", "Lucida Grande", Verdana, "Helvetica Neue", Arial, sans-serif, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+  font-family: "Segoe UI", "微软雅黑", "Lucida Grande", Verdana, "Helvetica Neue", Arial, sans-serif, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
 }
 h2 {
   font-size: 1.3em;
@@ -2067,7 +2067,7 @@ li:hover {
 .article-entry .gist .gist-file .gist-meta {
   background: rgba(249,249,249,0.5);
   color: #8e908c;
-  font: 0.85em "Microsoft YaHei", "Lucida Grande", Verdana, "Helvetica Neue", Arial, sans-serif;
+  font: 0.85em "微软雅黑", "Lucida Grande", Verdana, "Helvetica Neue", Arial, sans-serif;
   text-shadow: 0 0;
   padding: 0;
   margin-top: 1em;
