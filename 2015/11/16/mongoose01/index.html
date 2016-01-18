@@ -5,19 +5,19 @@
   
   <title>mongoose简单总结 | YakeZhang&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
-Mongoose是什么Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对">
+  <meta name="description" content="工作一年多了,一直再用node.js和PHP写后端. node.js写后端 数据库用mongodb ,第三方数据库操作模块就用的mongoose,在此总结一下mongoose的基本使用
+Mongoose是什么Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对MongoDB操作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mongoose简单总结">
 <meta property="og:url" content="http://yake987.github.io/jaak/2015/11/16/mongoose01/index.html">
 <meta property="og:site_name" content="YakeZhang's Blog">
-<meta property="og:description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
-Mongoose是什么Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对">
-<meta property="og:updated_time" content="2015-11-16T05:43:14.000Z">
+<meta property="og:description" content="工作一年多了,一直再用node.js和PHP写后端. node.js写后端 数据库用mongodb ,第三方数据库操作模块就用的mongoose,在此总结一下mongoose的基本使用
+Mongoose是什么Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对MongoDB操作">
+<meta property="og:updated_time" content="2016-01-18T08:22:36.280Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mongoose简单总结">
-<meta name="twitter:description" content="工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用
-Mongoose是什么Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对">
+<meta name="twitter:description" content="工作一年多了,一直再用node.js和PHP写后端. node.js写后端 数据库用mongodb ,第三方数据库操作模块就用的mongoose,在此总结一下mongoose的基本使用
+Mongoose是什么Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对MongoDB操作">
   
     <link rel="alternative" href="/atom.xml" title="YakeZhang&#39;s Blog" type="application/atom+xml">
   
@@ -253,9 +253,9 @@ Mongoose是什么Mongoose是MongoDB的一个对象模型工具，是基于node-m
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>工作一年多了,一直再用node.js和PHP写后端. 关于node.js 和php 废话不多说,请自行google或百度. js写后端 数据库mongodb ,本文主要总结一下mongoose的基本使用</p>
-<h3 id="Mongoose是什么">Mongoose是什么</h3><p>Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对MongoDB操作的一个对象模型库，封装了MongoDB对文档的的一些增删改查等常用方法，让NodeJS操作Mongodb数据库变得更加灵活简单。<br><a id="more"></a></p>
-<h4 id="Mongoose能做什么">Mongoose能做什么</h4><p>Mongoose，因为封装了对MongoDB对文档操作的常用处理方法，让NodeJS操作Mongodb数据库变得easy、easy、So easy!</p>
+        <p>工作一年多了,一直再用node.js和PHP写后端. node.js写后端 数据库用mongodb ,第三方数据库操作模块就用的mongoose,在此总结一下mongoose的基本使用</p>
+<h4 id="Mongoose是什么">Mongoose是什么</h4><p>Mongoose是MongoDB的一个对象模型工具，是基于node-mongodb-native开发的MongoDB nodejs驱动，可以在异步的环境下执行。同时它也是针对MongoDB操作的一个对象模型库，封装了MongoDB对文档的的一些增删改查等常用方法，让NodeJS操作Mongodb数据库变得更加灵活简单。<br><a id="more"></a></p>
+<h3 id="Mongoose能做什么">Mongoose能做什么</h3><p>Mongoose，因为封装了对MongoDB对文档操作的常用处理方法，让NodeJS操作Mongodb数据库变得easy、easy、So easy!</p>
 <h4 id="Mongoose使用">Mongoose使用</h4><h5 id="安装mongoose">安装mongoose</h5><pre><code>npm <span class="keyword">install</span> mongoose
 </code></pre><h5 id="引用mongoose">引用mongoose</h5><pre><code><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">"mongoose"</span>);
 </code></pre><h5 id="使用”mongoose”连接数据库">使用”mongoose”连接数据库</h5><pre><code><span class="variable"><span class="keyword">var</span> db</span> = mongoose.connect(<span class="string">"mongodb://user:pass@localhost:port/database"</span>); 
@@ -461,7 +461,7 @@ Model.find({telephone: {<span class="variable">$exists</span>: false}},<span cla
         <p><span>本文标题:</span><a href="/jaak/2015/11/16/mongoose01/">mongoose简单总结</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Yake Zhang 的个人博客">Yake Zhang</a></p>
         <p><span>发布时间:</span>2015年11月16日 - 10时25分</p>
-        <p><span>最后更新:</span>2015年11月16日 - 13时43分</p>
+        <p><span>最后更新:</span>2016年01月18日 - 16时22分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/jaak/2015/11/16/mongoose01/" title="mongoose简单总结">http://yake987.github.io/jaak/2015/11/16/mongoose01/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yake987.github.io/jaak/2015/11/16/mongoose01/　　作者: Yake Zhang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -497,7 +497,7 @@ Model.find({telephone: {<span class="variable">$exists</span>: false}},<span cla
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mongoose是什么"><span class="toc-number">1.</span> <span class="toc-text">Mongoose是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Mongoose能做什么"><span class="toc-number">1.1.</span> <span class="toc-text">Mongoose能做什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mongoose使用"><span class="toc-number">1.2.</span> <span class="toc-text">Mongoose使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#安装mongoose"><span class="toc-number">1.2.1.</span> <span class="toc-text">安装mongoose</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#引用mongoose"><span class="toc-number">1.2.2.</span> <span class="toc-text">引用mongoose</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#使用”mongoose”连接数据库"><span class="toc-number">1.2.3.</span> <span class="toc-text">使用”mongoose”连接数据库</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#名词解释_Schema,Model,Entity"><span class="toc-number">1.3.</span> <span class="toc-text">名词解释 Schema,Model,Entity</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Schema_Model_Entity_完整示例"><span class="toc-number">1.4.</span> <span class="toc-text">Schema Model Entity 完整示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_基本的find查询"><span class="toc-number">1.5.</span> <span class="toc-text">Model 基本的find查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_保存方法"><span class="toc-number">1.6.</span> <span class="toc-text">Model 保存方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Entity_保存方法"><span class="toc-number">1.7.</span> <span class="toc-text">Entity 保存方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_数据更新"><span class="toc-number">1.8.</span> <span class="toc-text">Model 数据更新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_删除数据"><span class="toc-number">1.9.</span> <span class="toc-text">Model 删除数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_find过滤查询"><span class="toc-number">1.10.</span> <span class="toc-text">Model find过滤查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_findOne的基本用法"><span class="toc-number">1.11.</span> <span class="toc-text">Model findOne的基本用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_findById的基本用法"><span class="toc-number">1.12.</span> <span class="toc-text">Model findById的基本用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_条件查询"><span class="toc-number">1.13.</span> <span class="toc-text">Model 条件查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#链式查询"><span class="toc-number">1.14.</span> <span class="toc-text">链式查询</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Mongoose是什么"><span class="toc-number">1.</span> <span class="toc-text">Mongoose是什么</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mongoose能做什么"><span class="toc-number"></span> <span class="toc-text">Mongoose能做什么</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Mongoose使用"><span class="toc-number">1.</span> <span class="toc-text">Mongoose使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#安装mongoose"><span class="toc-number">1.1.</span> <span class="toc-text">安装mongoose</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#引用mongoose"><span class="toc-number">1.2.</span> <span class="toc-text">引用mongoose</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#使用”mongoose”连接数据库"><span class="toc-number">1.3.</span> <span class="toc-text">使用”mongoose”连接数据库</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#名词解释_Schema,Model,Entity"><span class="toc-number">2.</span> <span class="toc-text">名词解释 Schema,Model,Entity</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Schema_Model_Entity_完整示例"><span class="toc-number">3.</span> <span class="toc-text">Schema Model Entity 完整示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_基本的find查询"><span class="toc-number">4.</span> <span class="toc-text">Model 基本的find查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_保存方法"><span class="toc-number">5.</span> <span class="toc-text">Model 保存方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Entity_保存方法"><span class="toc-number">6.</span> <span class="toc-text">Entity 保存方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_数据更新"><span class="toc-number">7.</span> <span class="toc-text">Model 数据更新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_删除数据"><span class="toc-number">8.</span> <span class="toc-text">Model 删除数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_find过滤查询"><span class="toc-number">9.</span> <span class="toc-text">Model find过滤查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_findOne的基本用法"><span class="toc-number">10.</span> <span class="toc-text">Model findOne的基本用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_findById的基本用法"><span class="toc-number">11.</span> <span class="toc-text">Model findById的基本用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_条件查询"><span class="toc-number">12.</span> <span class="toc-text">Model 条件查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#链式查询"><span class="toc-number">13.</span> <span class="toc-text">链式查询</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
